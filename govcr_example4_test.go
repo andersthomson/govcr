@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/seborama/govcr"
+	"github.com/csonya/govcr"
 )
 
 const example4CassetteName = "MyCassette4"

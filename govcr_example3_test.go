@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/seborama/govcr"
+	"github.com/csonya/govcr"
 )
 
 const example3CassetteName = "MyCassette3"

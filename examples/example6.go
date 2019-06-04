@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/seborama/govcr"
+	"github.com/csonya/govcr"
 )
 
 const example6CassetteName = "MyCassette6"

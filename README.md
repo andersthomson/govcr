@@ -1,5 +1,7 @@
 # govcr
 
+Forked from [seborama/govcr](https://github.com/seborama/govcr)
+
 **A Word Of Warning**
 
 I'm in the process of partly rewriting **govcr** to offer better support for cassette mutations. This is necessary because when I first designed **govcr**, I wanted cassettes to be immutable as much as golang can achieve this. Since then, I have received requests to permit cassette mutations at recording time.
@@ -19,21 +21,21 @@ This project is an adaptation for Google's Go / Golang programming language.
 ## Install
 
 ```bash
-go get github.com/seborama/govcr
+go get github.com/csonya/govcr
 ```
 
-For all available releases, please check the [releases](https://github.com/seborama/govcr/releases) tab on github.
+For all available releases, please check the [releases](https://github.com/csonya/govcr/releases) tab on github.
 
 You can pick a specific major release for compatibility. For example, to use a v4.x release, use this command:
 
 ```bash
-go get gopkg.in/seborama/govcr.v4
+go get gopkg.in/csonya/govcr.v4
 ```
 
 And your source code would use this import:
 
 ```go
-import "gopkg.in/seborama/govcr.v4"
+import "gopkg.in/csonya/govcr.v4"
 ```
 
 ## Glossary of Terms
@@ -54,7 +56,7 @@ import "gopkg.in/seborama/govcr.v4"
 
 **govcr** can replay both successful and failed HTTP transactions.
 
-The code documentation can be found on [godoc](http://godoc.org/github.com/seborama/govcr).
+The code documentation can be found on [godoc](http://godoc.org/github.com/csonya/govcr).
 
 When using **govcr**'s `http.Client`, the request is matched against the **tracks** on the '**cassette**':
 
@@ -186,7 +188,7 @@ package main
 import (
     "fmt"
 
-    "github.com/seborama/govcr"
+    "github.com/csonya/govcr"
 )
 
 const example1CassetteName = "MyCassette1"
@@ -224,7 +226,7 @@ import (
     "net/http"
     "time"
 
-    "github.com/seborama/govcr"
+    "github.com/csonya/govcr"
 )
 
 const example2CassetteName = "MyCassette2"
@@ -295,7 +297,7 @@ import (
 
     "net/http"
 
-    "github.com/seborama/govcr"
+    "github.com/csonya/govcr"
 )
 
 const example4CassetteName = "MyCassette4"
@@ -350,7 +352,7 @@ import (
 
     "net/http"
 
-    "github.com/seborama/govcr"
+    "github.com/csonya/govcr"
 )
 
 const example5CassetteName = "MyCassette5"

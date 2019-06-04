@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seborama/govcr"
+	"github.com/csonya/govcr"
 )
 
 func TestPlaybackOrder(t *testing.T) {
