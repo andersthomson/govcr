@@ -15,6 +15,9 @@ type pcb struct {
 	Logger           *log.Logger
 	DisableRecording bool
 	CassettePath     string
+	// NoLiveConnections will not try to execute a live request when no matching track found
+	// Can be used when live connections are not possible or not recommended
+	NoLiveConnections bool
 }
 
 const trackNotFound = -1

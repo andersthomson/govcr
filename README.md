@@ -114,6 +114,21 @@ Example:
 
 This simply redirects all **govcr** logging to the OS's standard Null device (e.g. `nul` on Windows, or `/dev/null` on UN*X, etc).
 
+#### `VCRConfig.NoLiveConnections` - disable live requests
+
+Example:
+
+```go
+    vcr := govcr.NewVCR("MyCassette",
+        &govcr.VCRConfig{
+            NoLiveConnections: true,
+        })
+```
+
+With this flag govcr will not try to execute a live request when no matching track found. 
+Will return ErrNoTrackFound instead.
+Can be used when live connections are not possible or not recommended.
+
 #### `VCRConfig.RemoveTLS` - disable TLS recording
 
 Example:

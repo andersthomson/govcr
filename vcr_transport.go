@@ -1,6 +1,7 @@
 package govcr
 
 import (
+	"errors"
 	"net/http"
 )
 
@@ -12,6 +13,10 @@ type vcrTransport struct {
 	PCB      *pcb
 	Cassette *cassette
 }
+
+var (
+	ErrNoTrackFound = errors.New("no track found")
+)
 
 // RoundTrip is an implementation of http.RoundTripper.
 func (t *vcrTransport) RoundTrip(req *http.Request) (*http.Response, error) {
@@ -33,6 +38,13 @@ func (t *vcrTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// TODO: add a test to confirm err is replaying errors correctly (see cassette_test.go / Test_trackReplaysError)
 		return filteredResp, err
+	}
+
+	// return error if live connections are not supported and no mock track found
+	if t.PCB.NoLiveConnections {
+		t.PCB.Logger.Printf("ERROR - Cassette '%s' - No track found for %s %s\n",
+			t.Cassette.Name, req.Method, req.URL.String())
+		return nil, ErrNoTrackFound
 	}
 
 	t.PCB.Logger.Printf("INFO - Cassette '%s' - Executing request to live server for %s %s\n", t.Cassette.Name, req.Method, req.URL.String())
