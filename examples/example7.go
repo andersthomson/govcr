@@ -9,7 +9,7 @@ import (
 	"net/http/httptest"
 	"regexp"
 
-	"github.com/seborama/govcr"
+	"github.com/csonya/govcr"
 )
 
 const example7CassetteName = "MyCassette7"

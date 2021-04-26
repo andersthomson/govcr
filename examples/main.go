@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/seborama/govcr"
+	"github.com/csonya/govcr"
 )
 
 func runExample(name, cassetteName string, f func()) {

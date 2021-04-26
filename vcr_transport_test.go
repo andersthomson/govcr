@@ -5,15 +5,21 @@ import (
 	"net/http"
 	"os"
 	"reflect"
+	"strings"
 	"testing"
 )
 
-type mockRoundTripper struct{}
+type mockRoundTripper struct {
+	statusCode int
+}
 
 func (t *mockRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+	if t.statusCode == 0 {
+		t.statusCode = http.StatusMovedPermanently
+	}
 	return &http.Response{
 		Request:    req,
-		StatusCode: http.StatusMovedPermanently,
+		StatusCode: t.statusCode,
 	}, nil
 }
 
@@ -83,5 +89,32 @@ func Test_vcrTransport_RoundTrip_doesNotChangeLiveReqOrLiveResp(t *testing.T) {
 
 	if !reflect.DeepEqual(gotResp, &wantResp) {
 		t.Errorf("vcrTransport.RoundTrip() Response has been modified = %+v, want %+v", gotResp, wantResp)
+	}
+}
+
+// Test checks that live request was not executed for track not presented in cassette
+func TestVcrTransport_RoundTrip_NoLiveConnections(t *testing.T) {
+	tr := &mockRoundTripper{
+		statusCode: http.StatusTeapot,
+	}
+	// any cassette
+	vcr := NewVCR("MyCassette1", &VCRConfig{
+		Logging:           false,
+		NoLiveConnections: true,
+		//  without DisableRecording flag nonexisting request will be written to cassette and test will fail next time
+		DisableRecording: true,
+		Client:           &http.Client{Transport: tr},
+	})
+	// any request, not mentioned in cassette
+	resp, err := vcr.Client.Get("http://www.no_such_cassete.com/nonexisting")
+
+	if resp != nil && resp.StatusCode == tr.statusCode {
+		t.Fatalf("Live request was executed")
+	}
+	if err == nil {
+		t.Fatal("error expected here")
+	}
+	if !strings.Contains(err.Error(), ErrNoTrackFound.Error()) {
+		t.Errorf("expected err %v, actual %v", ErrNoTrackFound, err)
 	}
 }

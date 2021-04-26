@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/seborama/govcr"
+	"github.com/csonya/govcr"
 )
 
 const example1CassetteName = "MyCassette1"

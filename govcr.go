@@ -47,6 +47,10 @@ type VCRConfig struct {
 	// RemoveTLS will remove TLS from the Response when recording.
 	// TLS information is rarely needed and takes up a lot of space.
 	RemoveTLS bool
+
+	// NoLiveConnections will not try to execute a live request when no matching track found
+	// Can be used when live connections are not possible or not recommended
+	NoLiveConnections bool
 }
 
 // NewVCR creates a new VCR and loads a cassette.
@@ -85,6 +89,7 @@ func NewVCR(cassetteName string, vcrConfig *VCRConfig) *VCRControlPanel {
 	pcbr := &pcb{
 		// TODO: create appropriate test!
 		DisableRecording: vcrConfig.DisableRecording,
+		NoLiveConnections: vcrConfig.NoLiveConnections,
 		Transport:        vcrConfig.Client.Transport,
 		RequestFilter:    vcrConfig.RequestFilters.combined(),
 		ResponseFilter:   vcrConfig.ResponseFilters.combined(),
