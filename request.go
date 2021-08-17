@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/url"
 	"regexp"
+	"sync"
 )
 
 // A RequestFilter can be used to remove / amend undesirable header / body elements from the request.
@@ -28,6 +29,7 @@ type RequestFilters []RequestFilter
 // shares those above mentioned fields' data!
 // A change to the (shallow) copy will also change the source object!
 type Request struct {
+	mu     sync.Mutex
 	Header http.Header
 	Body   []byte
 	Method string
@@ -61,9 +63,11 @@ func RequestAddHeaderValue(key, value string) RequestFilter {
 // before the request is matched against the cassette.
 func RequestDeleteHeaderKeys(keys ...string) RequestFilter {
 	return func(req Request) Request {
+		req.mu.Lock()
 		for _, key := range keys {
 			req.Header.Del(key)
 		}
+		req.mu.Unlock()
 		return req
 	}
 }
